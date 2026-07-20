@@ -1,0 +1,346 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Instant Loan Application</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap');
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(135deg, #0f0c29, #302b63, #24243e);
+            padding: 20px;
+            position: relative;
+            overflow-x: hidden;
+        }
+
+        /* Animated background circles */
+        body::before {
+            content: '';
+            position: absolute;
+            width: 300px;
+            height: 300px;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 50%;
+            top: -50px;
+            right: -50px;
+            animation: float 8s ease-in-out infinite;
+        }
+
+        body::after {
+            content: '';
+            position: absolute;
+            width: 400px;
+            height: 400px;
+            background: rgba(255, 255, 255, 0.03);
+            border-radius: 50%;
+            bottom: -100px;
+            left: -100px;
+            animation: float 10s ease-in-out infinite reverse;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translate(0, 0); }
+            50% { transform: translate(30px, -30px); }
+        }
+
+        .loan-card {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(20px);
+            border-radius: 30px;
+            padding: 40px 35px;
+            max-width: 780px;
+            width: 100%;
+            box-shadow: 0 30px 60px rgba(0, 0, 0, 0.5);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            position: relative;
+            z-index: 10;
+            transition: transform 0.3s ease;
+        }
+
+        .loan-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .header-icon {
+            width: 80px;
+            height: 80px;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: -60px auto 20px auto;
+            box-shadow: 0 10px 30px rgba(102, 126, 234, 0.4);
+            font-size: 35px;
+            color: white;
+        }
+
+        h2 {
+            font-weight: 700;
+            color: #1a1a2e;
+            text-align: center;
+            margin-bottom: 5px;
+            letter-spacing: -0.5px;
+        }
+
+        .sub-text {
+            text-align: center;
+            color: #6c757d;
+            font-size: 14px;
+            margin-bottom: 25px;
+            border-bottom: 1px solid #eee;
+            padding-bottom: 20px;
+        }
+
+        .sub-text span {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            font-weight: 600;
+        }
+
+        .form-label {
+            font-weight: 600;
+            color: #2d2d44;
+            font-size: 14px;
+        }
+
+        .input-group-custom {
+            position: relative;
+            margin-bottom: 18px;
+        }
+
+        .input-group-custom .input-icon {
+            position: absolute;
+            left: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #667eea;
+            font-size: 16px;
+            z-index: 10;
+        }
+
+        .input-group-custom input,
+        .input-group-custom select {
+            width: 100%;
+            padding: 14px 15px 14px 45px;
+            border: 2px solid #e9ecef;
+            border-radius: 12px;
+            font-size: 14px;
+            transition: all 0.3s ease;
+            background: #f8f9fa;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        .input-group-custom input:focus,
+        .input-group-custom select:focus {
+            outline: none;
+            border-color: #667eea;
+            background: white;
+            box-shadow: 0 0 0 4px rgba(102, 126, 234, 0.15);
+        }
+
+        .input-group-custom textarea {
+            width: 100%;
+            padding: 14px 15px 14px 45px;
+            border: 2px solid #e9ecef;
+            border-radius: 12px;
+            font-size: 14px;
+            transition: all 0.3s ease;
+            background: #f8f9fa;
+            font-family: 'Poppins', sans-serif;
+            min-height: 60px;
+            resize: vertical;
+        }
+
+        .input-group-custom textarea:focus {
+            outline: none;
+            border-color: #667eea;
+            background: white;
+            box-shadow: 0 0 0 4px rgba(102, 126, 234, 0.15);
+        }
+
+        .input-group-custom textarea~.input-icon {
+            top: 22px;
+            transform: translateY(0);
+        }
+
+        .fee-badge {
+            background: linear-gradient(135deg, #f093fb, #f5576c);
+            color: white;
+            padding: 8px 20px;
+            border-radius: 50px;
+            font-weight: 600;
+            font-size: 14px;
+            display: inline-block;
+            margin-bottom: 15px;
+        }
+
+        .btn-submit {
+            width: 100%;
+            padding: 16px;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            border: none;
+            border-radius: 12px;
+            color: white;
+            font-weight: 700;
+            font-size: 18px;
+            letter-spacing: 0.5px;
+            transition: all 0.3s ease;
+            box-shadow: 0 10px 25px rgba(102, 126, 234, 0.35);
+            margin-top: 10px;
+            cursor: pointer;
+        }
+
+        .btn-submit:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 15px 35px rgba(102, 126, 234, 0.5);
+            background: linear-gradient(135deg, #5a6fd6, #6a3e8f);
+        }
+
+        .btn-submit i {
+            margin-right: 10px;
+        }
+
+        .row.gap-2>.col-12 {
+            padding-right: 8px;
+            padding-left: 8px;
+        }
+
+        @media (max-width: 576px) {
+            .loan-card {
+                padding: 30px 20px;
+            }
+            .header-icon {
+                width: 60px;
+                height: 60px;
+                font-size: 26px;
+                margin-top: -45px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="loan-card">
+        <!-- Floating Icon -->
+        <div class="header-icon">
+            <i class="fas fa-hand-holding-usd"></i>
+        </div>
+
+        <h2>Apply for Your Loan</h2>
+        <p class="sub-text">
+            Complete the form below to qualify. <span>Processing fee: 100 KSH</span>
+        </p>
+
+        <!-- Form starts here -->
+        <form action="/submit-application" method="POST">
+            <!-- Row 1: Full Name & Email -->
+            <div class="row g-3">
+                <div class="col-md-6">
+                    <div class="input-group-custom">
+                        <i class="fas fa-user input-icon"></i>
+                        <input type="text" class="form-control" name="fullName" placeholder="Full Name" required>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="input-group-custom">
+                        <i class="fas fa-envelope input-icon"></i>
+                        <input type="email" class="form-control" name="email" placeholder="Email Address" required>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Row 2: Phone & ID Number -->
+            <div class="row g-3 mt-1">
+                <div class="col-md-6">
+                    <div class="input-group-custom">
+                        <i class="fas fa-phone-alt input-icon"></i>
+                        <input type="tel" class="form-control" name="phone" placeholder="Phone Number" required>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="input-group-custom">
+                        <i class="fas fa-id-card input-icon"></i>
+                        <input type="text" class="form-control" name="idNumber" placeholder="National ID / Passport" required>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Row 3: Loan Amount & Purpose -->
+            <div class="row g-3 mt-1">
+                <div class="col-md-6">
+                    <div class="input-group-custom">
+                        <i class="fas fa-coins input-icon"></i>
+                        <input type="number" class="form-control" name="loanAmount" placeholder="Amount Requested (KES)" value="5000" required>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="input-group-custom">
+                        <i class="fas fa-bullseye input-icon"></i>
+                        <select class="form-control" name="purpose" required>
+                            <option value="">Select Purpose</option>
+                            <option value="business">Business Expansion</option>
+                            <option value="education">Education</option>
+                            <option value="medical">Medical Emergency</option>
+                            <option value="housing">Housing/Renovation</option>
+                            <option value="debt">Debt Consolidation</option>
+                            <option value="other">Other</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Row 4: Employment Status & Extra Note -->
+            <div class="row g-3 mt-1">
+                <div class="col-md-6">
+                    <div class="input-group-custom">
+                        <i class="fas fa-briefcase input-icon"></i>
+                        <select class="form-control" name="employment" required>
+                            <option value="">Employment Status</option>
+                            <option value="employed">Employed (Full-time)</option>
+                            <option value="self-employed">Self-Employed</option>
+                            <option value="business">Business Owner</option>
+                            <option value="unemployed">Unemployed</option>
+                            <option value="student">Student</option>
+                            <option value="retired">Retired</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="input-group-custom">
+                        <i class="fas fa-pen input-icon"></i>
+                        <textarea class="form-control" name="notes" placeholder="Additional notes (optional)"></textarea>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Fee Badge & Submit -->
+            <div class="text-center mt-3">
+                <span class="fee-badge"><i class="fas fa-lock me-2"></i> Processing Fee: 100 KSH</span>
+            </div>
+
+            <button type="submit" class="btn-submit">
+                <i class="fas fa-arrow-right"></i> Submit & Pay 100 KSH
+            </button>
+
+            <p class="text-center text-muted mt-3" style="font-size: 12px;">
+                <i class="fas fa-shield-alt me-1"></i> Secure payment via Paystack
+            </p>
+        </form>
+    </div>
+</body>
+  </html>
