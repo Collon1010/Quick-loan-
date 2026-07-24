@@ -1,315 +1,260 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Instant Loan Application</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Quick Loan</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap');
-
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap');
+        * { margin: 0; padding: 0; box-sizing: border-box; }
         body {
-            font-family: 'Poppins', sans-serif;
+            font-family: 'Inter', sans-serif;
             min-height: 100vh;
             display: flex;
             align-items: center;
             justify-content: center;
             background: linear-gradient(135deg, #0f0c29, #302b63, #24243e);
             padding: 20px;
-            position: relative;
-            overflow-x: hidden;
         }
-
-        /* Animated background circles */
-        body::before {
-            content: '';
-            position: absolute;
-            width: 300px;
-            height: 300px;
-            background: rgba(255, 255, 255, 0.05);
-            border-radius: 50%;
-            top: -50px;
-            right: -50px;
-            animation: float 8s ease-in-out infinite;
-        }
-
-        body::after {
-            content: '';
-            position: absolute;
-            width: 400px;
-            height: 400px;
-            background: rgba(255, 255, 255, 0.03);
-            border-radius: 50%;
-            bottom: -100px;
-            left: -100px;
-            animation: float 10s ease-in-out infinite reverse;
-        }
-
-        @keyframes float {
-            0%, 100% { transform: translate(0, 0); }
-            50% { transform: translate(30px, -30px); }
-        }
-
         .loan-card {
-            background: rgba(255, 255, 255, 0.95);
-            backdrop-filter: blur(20px);
-            border-radius: 30px;
-            padding: 40px 35px;
+            background: rgba(255,255,255,0.96);
+            backdrop-filter: blur(15px);
+            border-radius: 32px;
+            padding: 35px 30px;
             max-width: 780px;
             width: 100%;
-            box-shadow: 0 30px 60px rgba(0, 0, 0, 0.5);
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            position: relative;
-            z-index: 10;
-            transition: transform 0.3s ease;
+            box-shadow: 0 30px 60px rgba(0,0,0,0.6);
+            transition: transform 0.3s;
         }
-
-        .loan-card:hover {
-            transform: translateY(-5px);
-        }
-
+        .loan-card:hover { transform: translateY(-4px); }
         .header-icon {
-            width: 80px;
-            height: 80px;
-            background: linear-gradient(135deg, #667eea, #764ba2);
+            width: 70px; height: 70px;
+            background: linear-gradient(135deg, #f093fb, #f5576c);
             border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
-            margin: -60px auto 20px auto;
-            box-shadow: 0 10px 30px rgba(102, 126, 234, 0.4);
-            font-size: 35px;
-            color: white;
+            margin: -50px auto 15px;
+            font-size: 30px;
+            color: #fff;
+            box-shadow: 0 8px 25px rgba(245,87,108,0.4);
         }
-
         h2 {
             font-weight: 700;
             color: #1a1a2e;
             text-align: center;
-            margin-bottom: 5px;
             letter-spacing: -0.5px;
         }
-
         .sub-text {
             text-align: center;
             color: #6c757d;
             font-size: 14px;
-            margin-bottom: 25px;
             border-bottom: 1px solid #eee;
-            padding-bottom: 20px;
+            padding-bottom: 18px;
+            margin-bottom: 20px;
         }
-
-        .sub-text span {
-            background: linear-gradient(135deg, #667eea, #764ba2);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            font-weight: 600;
+        .step-indicators {
+            display: flex;
+            justify-content: center;
+            gap: 12px;
+            margin-bottom: 25px;
         }
-
-        .form-label {
-            font-weight: 600;
-            color: #2d2d44;
+        .step-dot {
+            width: 36px; height: 36px;
+            border-radius: 50%;
+            background: #e9ecef;
+            color: #6c757d;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
             font-size: 14px;
+            transition: all 0.3s;
         }
-
+        .step-dot.active {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: #fff;
+            box-shadow: 0 4px 12px rgba(102,126,234,0.4);
+        }
+        .step-dot.completed {
+            background: #28a745;
+            color: #fff;
+        }
+        .step-panel {
+            display: none;
+            animation: fadeSlide 0.4s ease;
+        }
+        .step-panel.active { display: block; }
+        @keyframes fadeSlide {
+            from { opacity: 0; transform: translateX(20px); }
+            to { opacity: 1; transform: translateX(0); }
+        }
         .input-group-custom {
             position: relative;
-            margin-bottom: 18px;
+            margin-bottom: 16px;
         }
-
         .input-group-custom .input-icon {
             position: absolute;
-            left: 15px;
-            top: 50%;
+            left: 15px; top: 50%;
             transform: translateY(-50%);
             color: #667eea;
             font-size: 16px;
-            z-index: 10;
+            z-index: 5;
         }
-
         .input-group-custom input,
-        .input-group-custom select {
-            width: 100%;
-            padding: 14px 15px 14px 45px;
-            border: 2px solid #e9ecef;
-            border-radius: 12px;
-            font-size: 14px;
-            transition: all 0.3s ease;
-            background: #f8f9fa;
-            font-family: 'Poppins', sans-serif;
-        }
-
-        .input-group-custom input:focus,
-        .input-group-custom select:focus {
-            outline: none;
-            border-color: #667eea;
-            background: white;
-            box-shadow: 0 0 0 4px rgba(102, 126, 234, 0.15);
-        }
-
+        .input-group-custom select,
         .input-group-custom textarea {
             width: 100%;
-            padding: 14px 15px 14px 45px;
+            padding: 13px 15px 13px 45px;
             border: 2px solid #e9ecef;
             border-radius: 12px;
             font-size: 14px;
-            transition: all 0.3s ease;
             background: #f8f9fa;
-            font-family: 'Poppins', sans-serif;
-            min-height: 60px;
-            resize: vertical;
+            transition: 0.3s;
+            font-family: 'Inter', sans-serif;
         }
-
+        .input-group-custom input:focus,
+        .input-group-custom select:focus,
         .input-group-custom textarea:focus {
             outline: none;
             border-color: #667eea;
-            background: white;
-            box-shadow: 0 0 0 4px rgba(102, 126, 234, 0.15);
+            background: #fff;
+            box-shadow: 0 0 0 4px rgba(102,126,234,0.15);
         }
-
-        .input-group-custom textarea~.input-icon {
-            top: 22px;
-            transform: translateY(0);
+        .input-group-custom textarea { min-height: 65px; padding-top: 13px; }
+        .input-group-custom textarea ~ .input-icon { top: 20px; transform: none; }
+        .input-group-custom input[type="file"] {
+            padding-left: 45px;
+            background: #f8f9fa;
+            cursor: pointer;
         }
-
+        .btn-nav {
+            padding: 12px 30px;
+            border: none;
+            border-radius: 12px;
+            font-weight: 600;
+            transition: 0.3s;
+        }
+        .btn-next {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: #fff;
+            box-shadow: 0 6px 20px rgba(102,126,234,0.35);
+        }
+        .btn-next:hover { transform: translateY(-2px); box-shadow: 0 10px 25px rgba(102,126,234,0.5); }
+        .btn-prev {
+            background: #e9ecef;
+            color: #495057;
+        }
+        .btn-prev:hover { background: #dee2e6; }
         .fee-badge {
             background: linear-gradient(135deg, #f093fb, #f5576c);
-            color: white;
-            padding: 8px 20px;
+            color: #fff;
+            padding: 6px 18px;
             border-radius: 50px;
             font-weight: 600;
             font-size: 14px;
-            display: inline-block;
-            margin-bottom: 15px;
         }
-
-        .btn-submit {
+        .upload-preview {
+            margin-top: 10px;
+            max-width: 100%;
+            max-height: 150px;
+            border-radius: 10px;
+            border: 2px dashed #ced4da;
+            display: none;
+            padding: 5px;
+        }
+        .upload-preview.show { display: block; }
+        .btn-submit-final {
             width: 100%;
             padding: 16px;
-            background: linear-gradient(135deg, #667eea, #764ba2);
+            background: linear-gradient(135deg, #28a745, #20c997);
             border: none;
             border-radius: 12px;
-            color: white;
+            color: #fff;
             font-weight: 700;
             font-size: 18px;
-            letter-spacing: 0.5px;
-            transition: all 0.3s ease;
-            box-shadow: 0 10px 25px rgba(102, 126, 234, 0.35);
-            margin-top: 10px;
-            cursor: pointer;
+            transition: 0.3s;
+            box-shadow: 0 8px 25px rgba(40,167,69,0.35);
         }
-
-        .btn-submit:hover {
+        .btn-submit-final:hover {
             transform: translateY(-3px);
-            box-shadow: 0 15px 35px rgba(102, 126, 234, 0.5);
-            background: linear-gradient(135deg, #5a6fd6, #6a3e8f);
+            box-shadow: 0 12px 35px rgba(40,167,69,0.5);
         }
-
-        .btn-submit i {
-            margin-right: 10px;
-        }
-
-        .row.gap-2>.col-12 {
-            padding-right: 8px;
-            padding-left: 8px;
-        }
-
         @media (max-width: 576px) {
-            .loan-card {
-                padding: 30px 20px;
-            }
-            .header-icon {
-                width: 60px;
-                height: 60px;
-                font-size: 26px;
-                margin-top: -45px;
-            }
+            .loan-card { padding: 25px 18px; }
         }
     </style>
 </head>
 <body>
-    <div class="loan-card">
-        <!-- Floating Icon -->
-        <div class="header-icon">
-            <i class="fas fa-hand-holding-usd"></i>
-        </div>
+<div class="loan-card" id="app">
+    <div class="header-icon"><i class="fas fa-bolt"></i></div>
+    <h2>Quick Loan</h2>
+    <p class="sub-text"><i class="fas fa-clock me-1"></i> Complete all steps – approval is instant</p>
 
-        <h2>Apply for Your Loan</h2>
-        <p class="sub-text">
-            Complete the form below to qualify. <span>Processing fee: 100 KSH</span>
-        </p>
+    <!-- Step Indicators -->
+    <div class="step-indicators">
+        <div class="step-dot active" id="dot1">1</div>
+        <div class="step-dot" id="dot2">2</div>
+        <div class="step-dot" id="dot3">3</div>
+    </div>
 
-        <!-- Form starts here -->
-        <form action="/submit-application" method="POST">
-            <!-- Row 1: Full Name & Email -->
+    <form id="loanForm" action="/submit-application" method="POST" enctype="multipart/form-data">
+        <!-- ========== STEP 1 ========== -->
+        <div class="step-panel active" data-step="1">
+            <h5 class="fw-bold mb-3"><i class="fas fa-user-circle text-primary me-2"></i>Personal Information</h5>
             <div class="row g-3">
                 <div class="col-md-6">
                     <div class="input-group-custom">
                         <i class="fas fa-user input-icon"></i>
-                        <input type="text" class="form-control" name="fullName" placeholder="Full Name" required>
+                        <input type="text" name="fullName" placeholder="Full Name" required />
                     </div>
                 </div>
                 <div class="col-md-6">
                     <div class="input-group-custom">
                         <i class="fas fa-envelope input-icon"></i>
-                        <input type="email" class="form-control" name="email" placeholder="Email Address" required>
+                        <input type="email" name="email" placeholder="Email Address" required />
                     </div>
                 </div>
-            </div>
-
-            <!-- Row 2: Phone & ID Number -->
-            <div class="row g-3 mt-1">
                 <div class="col-md-6">
                     <div class="input-group-custom">
                         <i class="fas fa-phone-alt input-icon"></i>
-                        <input type="tel" class="form-control" name="phone" placeholder="Phone Number" required>
+                        <input type="tel" name="phone" placeholder="Phone Number" required />
                     </div>
                 </div>
                 <div class="col-md-6">
                     <div class="input-group-custom">
                         <i class="fas fa-id-card input-icon"></i>
-                        <input type="text" class="form-control" name="idNumber" placeholder="National ID / Passport" required>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Row 3: Loan Amount & Purpose -->
-            <div class="row g-3 mt-1">
-                <div class="col-md-6">
-                    <div class="input-group-custom">
-                        <i class="fas fa-coins input-icon"></i>
-                        <input type="number" class="form-control" name="loanAmount" placeholder="Amount Requested (KES)" value="5000" required>
+                        <input type="text" name="idNumber" placeholder="National ID / Passport" required />
                     </div>
                 </div>
                 <div class="col-md-6">
                     <div class="input-group-custom">
-                        <i class="fas fa-bullseye input-icon"></i>
-                        <select class="form-control" name="purpose" required>
-                            <option value="">Select Purpose</option>
-                            <option value="business">Business Expansion</option>
-                            <option value="education">Education</option>
-                            <option value="medical">Medical Emergency</option>
-                            <option value="housing">Housing/Renovation</option>
-                            <option value="debt">Debt Consolidation</option>
-                            <option value="other">Other</option>
-                        </select>
+                        <i class="fas fa-calendar-alt input-icon"></i>
+                        <input type="date" name="dob" required />
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="input-group-custom">
+                        <i class="fas fa-map-pin input-icon"></i>
+                        <input type="text" name="address" placeholder="Residential Address" required />
                     </div>
                 </div>
             </div>
+            <div class="d-flex justify-content-end mt-3">
+                <button type="button" class="btn-nav btn-next" onclick="goStep(2)">Next <i class="fas fa-arrow-right ms-1"></i></button>
+            </div>
+        </div>
 
-            <!-- Row 4: Employment Status & Extra Note -->
-            <div class="row g-3 mt-1">
+        <!-- ========== STEP 2 ========== -->
+        <div class="step-panel" data-step="2">
+            <h5 class="fw-bold mb-3"><i class="fas fa-briefcase text-success me-2"></i>Employment & Loan Details</h5>
+            <div class="row g-3">
                 <div class="col-md-6">
                     <div class="input-group-custom">
                         <i class="fas fa-briefcase input-icon"></i>
-                        <select class="form-control" name="employment" required>
+                        <select name="employment" required>
                             <option value="">Employment Status</option>
                             <option value="employed">Employed (Full-time)</option>
                             <option value="self-employed">Self-Employed</option>
@@ -322,25 +267,100 @@
                 </div>
                 <div class="col-md-6">
                     <div class="input-group-custom">
+                        <i class="fas fa-money-bill-wave input-icon"></i>
+                        <input type="number" name="income" placeholder="Monthly Income (KES)" required />
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="input-group-custom">
+                        <i class="fas fa-coins input-icon"></i>
+                        <input type="number" name="loanAmount" placeholder="Loan Amount Requested (KES)" required />
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="input-group-custom">
+                        <i class="fas fa-bullseye input-icon"></i>
+                        <select name="purpose" required>
+                            <option value="">Loan Purpose</option>
+                            <option value="business">Business Expansion</option>
+                            <option value="education">Education</option>
+                            <option value="medical">Medical Emergency</option>
+                            <option value="housing">Housing/Renovation</option>
+                            <option value="debt">Debt Consolidation</option>
+                            <option value="other">Other</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="col-12">
+                    <div class="input-group-custom">
                         <i class="fas fa-pen input-icon"></i>
-                        <textarea class="form-control" name="notes" placeholder="Additional notes (optional)"></textarea>
+                        <textarea name="notes" placeholder="Additional notes (optional)"></textarea>
                     </div>
                 </div>
             </div>
-
-            <!-- Fee Badge & Submit -->
-            <div class="text-center mt-3">
-                <span class="fee-badge"><i class="fas fa-lock me-2"></i> Processing Fee: 100 KSH</span>
+            <div class="d-flex justify-content-between mt-3">
+                <button type="button" class="btn-nav btn-prev" onclick="goStep(1)"><i class="fas fa-arrow-left me-1"></i> Back</button>
+                <button type="button" class="btn-nav btn-next" onclick="goStep(3)">Next <i class="fas fa-arrow-right ms-1"></i></button>
             </div>
+        </div>
 
-            <button type="submit" class="btn-submit">
-                <i class="fas fa-arrow-right"></i> Submit & Pay 100 KSH
-            </button>
+        <!-- ========== STEP 3 ========== -->
+        <div class="step-panel" data-step="3">
+            <h5 class="fw-bold mb-3"><i class="fas fa-upload text-warning me-2"></i>Upload ID & Final Review</h5>
+            <div class="input-group-custom">
+                <i class="fas fa-camera input-icon"></i>
+                <input type="file" name="idPhoto" accept="image/*" id="idPhotoInput" />
+            </div>
+            <img id="preview" class="upload-preview" alt="ID Preview" />
+            <div class="alert alert-light border mt-3 p-3" style="border-radius: 12px;">
+                <p class="mb-1"><strong>Summary</strong></p>
+                <ul class="list-unstyled small" id="summaryList">
+                    <li><i class="fas fa-check-circle text-success me-1"></i> All required fields filled</li>
+                    <li><i class="fas fa-check-circle text-success me-1"></i> Your application will be reviewed instantly</li>
+                </ul>
+                <span class="fee-badge"><i class="fas fa-lock me-2"></i> Withdrawal fee: 50 KSH (pay after approval)</span>
+            </div>
+            <div class="d-flex justify-content-between mt-3">
+                <button type="button" class="btn-nav btn-prev" onclick="goStep(2)"><i class="fas fa-arrow-left me-1"></i> Back</button>
+                <button type="submit" class="btn-nav btn-submit-final"><i class="fas fa-paper-plane me-2"></i> Submit Application</button>
+            </div>
+        </div>
+    </form>
+</div>
 
-            <p class="text-center text-muted mt-3" style="font-size: 12px;">
-                <i class="fas fa-shield-alt me-1"></i> Secure payment via Paystack
-            </p>
-        </form>
-    </div>
+<script>
+    let currentStep = 1;
+    const totalSteps = 3;
+
+    function goStep(step) {
+        if (step < 1 || step > totalSteps) return;
+        document.querySelectorAll('.step-panel').forEach(p => p.classList.remove('active'));
+        document.querySelector(`.step-panel[data-step="${step}"]`).classList.add('active');
+        for (let i = 1; i <= totalSteps; i++) {
+            const dot = document.getElementById('dot' + i);
+            dot.classList.remove('active', 'completed');
+            if (i < step) dot.classList.add('completed');
+            else if (i === step) dot.classList.add('active');
+        }
+        currentStep = step;
+    }
+
+    document.getElementById('idPhotoInput').addEventListener('change', function(e) {
+        const preview = document.getElementById('preview');
+        if (this.files && this.files[0]) {
+            const reader = new FileReader();
+            reader.onload = (ev) => {
+                preview.src = ev.target.result;
+                preview.classList.add('show');
+            };
+            reader.readAsDataURL(this.files[0]);
+        } else {
+            preview.src = '';
+            preview.classList.remove('show');
+        }
+    });
+
+    document.addEventListener('DOMContentLoaded', () => goStep(1));
+</script>
 </body>
-  </html>
+</html>
